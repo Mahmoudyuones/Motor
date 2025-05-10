@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:motor/features/login_screen.dart';
+import 'package:motor/features/register_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,14 +13,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
-      designSize: const Size(172, 377),
+      designSize: const Size(403, 893),
       minTextAdapt: true,
       splitScreenMode: true,
       builder:
           (_, __) => MaterialApp(
             debugShowCheckedModeBanner: false,
-            routes: {LoginScreen.routeName: (_) => LoginScreen()},
-            initialRoute: LoginScreen.routeName,
+            routes: {RegisterScreen.routeName: (_) => RegisterScreen()},
+            initialRoute: RegisterScreen.routeName,
+            builder: (context, child) {
+              return Directionality(
+                textDirection: TextDirection.rtl,
+                child: child!,
+              );
+            },
           ),
     );
   }
