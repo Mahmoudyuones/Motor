@@ -7,9 +7,13 @@ import 'package:motor/core/resources/styles_manager.dart';
 class DefaultTextFormField extends StatefulWidget {
   final String hintText;
   final IconData? icon;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+  final bool isSearch;
   final String? Function(String?)? validator;
   final bool isPassword;
   final TextEditingController controller;
+
   const DefaultTextFormField({
     super.key,
     required this.hintText,
@@ -17,6 +21,9 @@ class DefaultTextFormField extends StatefulWidget {
     this.validator,
     required this.isPassword,
     required this.controller,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.isSearch = false,
   });
 
   @override
@@ -38,25 +45,22 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField> {
         fontSize: FontSize.s17,
       ),
       decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(vertical: 14.h),
+        prefixIconConstraints: BoxConstraints(
+          minWidth: 42.w,
+          minHeight: 42.h,
+          maxWidth: 42.w,
+          maxHeight: 42.h,
+        ),
+        suffixIconConstraints: BoxConstraints(
+          minWidth: 50.w,
+          minHeight: 42.h,
+          maxWidth: 50.w,
+          maxHeight: 42.h,
+        ),
         hintText: widget.hintText,
-        suffixIcon:
-            widget.isPassword
-                ? IconButton(
-                  onPressed: () {
-                    setState(() {
-                      isObscure = !isObscure;
-                    });
-                  },
-                  icon: Icon(
-                    isObscure ? Icons.visibility_off : Icons.visibility,
-                    color: ColorManager.black,
-                  ),
-                )
-                : null,
-        prefixIcon:
-            widget.icon == null
-                ? null
-                : Icon(widget.icon, color: ColorManager.black),
+        suffixIcon: widget.suffixIcon,
+        prefixIcon: widget.prefixIcon,
         filled: true,
         fillColor: ColorManager.white,
         hintStyle: StylesManager.getBoldStyle(
@@ -65,23 +69,38 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField> {
         ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: Colors.black, width: 1),
+          borderSide:
+              widget.isSearch
+                  ? BorderSide.none
+                  : BorderSide(color: Colors.black, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: Colors.black, width: 1),
+          borderSide:
+              widget.isSearch
+                  ? BorderSide.none
+                  : BorderSide(color: Colors.black, width: 1),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: ColorManager.black, width: 1),
+          borderSide:
+              widget.isSearch
+                  ? BorderSide.none
+                  : BorderSide(color: ColorManager.black, width: 1),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: ColorManager.primary, width: 1),
+          borderSide:
+              widget.isSearch
+                  ? BorderSide.none
+                  : BorderSide(color: ColorManager.primary, width: 1),
         ),
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.r),
-          borderSide: BorderSide(color: ColorManager.primary, width: 1),
+          borderSide:
+              widget.isSearch
+                  ? BorderSide.none
+                  : BorderSide(color: ColorManager.primary, width: 1),
         ),
       ),
     );
