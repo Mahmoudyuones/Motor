@@ -23,6 +23,13 @@ class _HomeTapState extends State<HomeTap> {
   TextEditingController searchController = TextEditingController();
   final String userName = 'أحمد ';
   final String userLocation = 'الرياض';
+  List<String> imagesShowerPathsList = [
+    'assets/images/car.png',
+    'assets/images/car.png',
+    'assets/images/car.png',
+    'assets/images/car.png',
+    'assets/images/car.png',
+  ];
   List<BrandModel> filteredBrands = List.generate(
     15,
     (index) => BrandModel(
@@ -219,15 +226,7 @@ class _HomeTapState extends State<HomeTap> {
 
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
-                  child: ImageShower(
-                    images: [
-                      'assets/images/car.png',
-                      'assets/images/car.png',
-                      'assets/images/car.png',
-                      'assets/images/car.png',
-                      'assets/images/car.png',
-                    ],
-                  ),
+                  child: ImageShower(images: imagesShowerPathsList),
                 ),
               ),
             ],
@@ -252,7 +251,15 @@ class _HomeTapState extends State<HomeTap> {
             ),
           ),
           SizedBox(height: 20.h),
-          CategoriesWidget(),
+          CategoriesWidget(
+            modelsNames: [
+              'كامري',
+              'كامري هايبرد',
+              'كامري سبورت',
+              'كامري XSE',
+              'كامري LE',
+            ],
+          ),
           SizedBox(height: 20.h),
           MostOrderedAndOffers(
             title: 'الاكثر طلباََ',

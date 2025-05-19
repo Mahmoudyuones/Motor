@@ -1,14 +1,17 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motor/core/models/filter_model.dart';
 import 'package:motor/core/resources/color_manager.dart';
 import 'package:motor/core/resources/font_manager.dart';
 import 'package:motor/core/resources/styles_manager.dart';
 import 'package:motor/core/widgets/category_and_brand_item.dart';
+import 'package:motor/features/filteration/filter_screen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CategoriesWidget extends StatefulWidget {
-  const CategoriesWidget({super.key});
+  final List<String> modelsNames;
+  const CategoriesWidget({super.key, required this.modelsNames});
 
   @override
   State<CategoriesWidget> createState() => _CategoriesWidgetState();
@@ -77,7 +80,6 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                       color: ColorManager.black,
                     ),
                     child: AnimatedToggleSwitch<int>.size(
-                      textDirection: TextDirection.rtl,
                       current: selectedIndex,
                       values: const [0, 1],
                       iconOpacity: 1.0,
@@ -163,7 +165,14 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                                 itemBuilder: (context, index) {
                                   return CategoryAndBrandItem(
                                     onTap: () {
-                                      print('Tapped on ${page[index]}');
+                                      if (selectedIndex == 0) {
+                                        FilterScreen()
+                                            .onTapCategoryAndBrandItem(
+                                              context,
+                                              FilterModel(),
+                                              widget.modelsNames,
+                                            );
+                                      }
                                     },
                                     text: textLabel,
                                     imagePath: page[index],

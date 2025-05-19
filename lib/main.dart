@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:motor/features/home_screen.dart';
-import 'package:motor/features/register_screen.dart';
+import 'package:motor/features/screens/home_screen.dart';
+import 'package:motor/features/screens/register_screen.dart';
 
 Future<void> main() async {
   await ScreenUtil.ensureScreenSize();

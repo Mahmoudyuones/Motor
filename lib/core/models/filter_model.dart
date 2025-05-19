@@ -3,9 +3,9 @@ class FilterModel {
   int? brandIndex;
   String? modelName;
   int? modelIndex;
-
   String? categoryName;
   int? categoryIndex;
+  int? year;
 
   double? minPrice;
   double? maxPrice;
@@ -16,6 +16,7 @@ class FilterModel {
     this.categoryIndex,
     this.modelName,
     this.modelIndex,
+    this.year,
     this.minPrice,
     this.maxPrice,
   });

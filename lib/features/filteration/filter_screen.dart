@@ -1,5 +1,7 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:motor/core/models/brand_model.dart';
 import 'package:motor/core/models/filter_model.dart';
 import 'package:motor/core/resources/color_manager.dart';
@@ -7,8 +9,124 @@ import 'package:motor/core/resources/font_manager.dart';
 import 'package:motor/core/resources/styles_manager.dart';
 import 'package:motor/core/widgets/category_and_brand_item.dart';
 import 'package:motor/core/widgets/default_elevated_button.dart';
+import 'package:motor/core/widgets/suggestion_item.dart';
 
 class FilterScreen {
+  FilterModel filterModel = FilterModel();
+
+  onTapCategoryAndBrandItem(
+    BuildContext context,
+    FilterModel filterModel,
+    List<String> modelNames,
+  ) {
+    bool showYear = true;
+
+    showBarModalBottomSheet(
+      backgroundColor: ColorManager.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(12.r),
+          topRight: Radius.circular(12.r),
+        ),
+      ),
+      barrierColor: ColorManager.white.withOpacity(0.5),
+      context: context,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Padding(
+              padding: EdgeInsets.all(8.h),
+              child: Column(
+                children: [
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      showYear ? 'سنة الصنع' : 'الموديلات',
+                      style: StylesManager.getBoldStyle(
+                        color: ColorManager.black,
+                        fontSize: FontSize.s18,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Expanded(
+                    child:
+                        showYear
+                            ? ListView.separated(
+                              itemBuilder: (context, index) {
+                                final currentYear = DateTime.now().year;
+                                final isSelected =
+                                    filterModel.year == null
+                                        ? false
+                                        : (currentYear - filterModel.year!) ==
+                                            index;
+                                print(filterModel.year);
+
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12.r),
+                                    border:
+                                        isSelected
+                                            ? Border.all(
+                                              color: ColorManager.primary,
+                                              width: 3,
+                                            )
+                                            : null,
+                                  ),
+                                  child: SuggestionItem(
+                                    title: '${currentYear - index}',
+                                    onTap: () {
+                                      setState(() {
+                                        filterModel.year =
+                                            isSelected
+                                                ? null
+                                                : currentYear - index;
+
+                                        Future.delayed(
+                                          const Duration(milliseconds: 100),
+                                          () {
+                                            setState(() {
+                                              showYear = false;
+                                            });
+                                          },
+                                        );
+                                      });
+                                    },
+                                  ),
+                                );
+                              },
+                              separatorBuilder:
+                                  (context, index) => SizedBox(height: 10.h),
+                              itemCount: 50,
+                            )
+                            : FadeInLeft(
+                              child: ListView.separated(
+                                itemBuilder: (context, index) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12.r),
+                                    ),
+                                    child: SuggestionItem(
+                                      title: modelNames[index],
+                                      onTap: () {},
+                                    ),
+                                  );
+                                },
+                                separatorBuilder:
+                                    (context, index) => SizedBox(height: 10.h),
+                                itemCount: modelNames.length,
+                              ),
+                            ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
   void showFilterDialog(
     BuildContext context,
     List<BrandModel> brandItems,
@@ -16,7 +134,6 @@ class FilterScreen {
     List<String> modelsNames,
   ) {
     RangeValues currentRangeValues = const RangeValues(0, 22000);
-    FilterModel filterModel = FilterModel();
     showDialog(
       barrierColor: ColorManager.grey.withOpacity(.5),
       context: context,
@@ -306,7 +423,20 @@ class FilterScreen {
                                                           ? null
                                                           : category.name;
                                                 });
-                                                print(index);
+
+                                                Future.delayed(
+                                                  const Duration(
+                                                    milliseconds: 50,
+                                                  ),
+                                                  () {
+                                                    filterModel.year == null;
+                                                    onTapCategoryAndBrandItem(
+                                                      context,
+                                                      filterModel,
+                                                      modelsNames,
+                                                    );
+                                                  },
+                                                );
                                               },
                                               text: category.name,
                                               imagePath: category.imagePath,
