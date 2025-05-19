@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motor/core/resources/color_manager.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ImageShower extends StatefulWidget {
   final List<String> images;
@@ -12,7 +13,6 @@ class ImageShower extends StatefulWidget {
 
 class _ImageShowerState extends State<ImageShower> {
   final PageController _controller = PageController();
-  int _currentPage = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +25,10 @@ class _ImageShowerState extends State<ImageShower> {
           children: [
             PageView.builder(
               controller: _controller,
-              onPageChanged: (index) {
-                setState(() {
-                  _currentPage = index;
-                });
-              },
+
               itemCount: widget.images.length,
               itemBuilder: (context, index) {
-                return Image.asset(widget.images[index], fit: BoxFit.cover);
+                return Image.asset(widget.images[index], fit: BoxFit.fill);
               },
             ),
             Positioned(
@@ -41,27 +37,21 @@ class _ImageShowerState extends State<ImageShower> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.r),
-                  color: ColorManager.white.withOpacity(0.5),
+                  color: ColorManager.white.withOpacity(0.4),
                   border: Border.all(
-                    color: ColorManager.white.withOpacity(0.5),
+                    color: ColorManager.white.withOpacity(0.4),
                     width: 3.w,
                   ),
                 ),
-                child: Row(
-                  children: List.generate(
-                    widget.images.length,
-                    (index) => Container(
-                      margin: EdgeInsets.symmetric(horizontal: 2.w),
-                      width: _currentPage == index ? 30.w : 12.w,
-                      height: 6.h,
-                      decoration: BoxDecoration(
-                        color:
-                            _currentPage == index
-                                ? ColorManager.primary
-                                : ColorManager.grey,
-                        borderRadius: BorderRadius.circular(4.r),
-                      ),
-                    ),
+                child: SmoothPageIndicator(
+                  controller: _controller,
+                  count: widget.images.length,
+                  effect: ExpandingDotsEffect(
+                    activeDotColor: ColorManager.primary,
+                    dotColor: ColorManager.grey,
+                    dotHeight: 8.h,
+                    dotWidth: 10.w,
+                    spacing: 4.w,
                   ),
                 ),
               ),
@@ -72,3 +62,20 @@ class _ImageShowerState extends State<ImageShower> {
     );
   }
 }
+// Row(
+//                   children: List.generate(
+//                     widget.images.length,
+//                     (index) => Container(
+//                       margin: EdgeInsets.symmetric(horizontal: 2.w),
+//                       width: _currentPage == index ? 30.w : 12.w,
+//                       height: 6.h,
+//                       decoration: BoxDecoration(
+//                         color:
+//                             _currentPage == index
+//                                 ? ColorManager.primary
+//                                 : ColorManager.grey,
+//                         borderRadius: BorderRadius.circular(4.r),
+//                       ),
+//                     ),
+//                   ),
+//                 ),

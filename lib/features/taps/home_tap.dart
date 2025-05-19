@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motor/core/models/brand_model.dart';
 import 'package:motor/core/resources/color_manager.dart';
 import 'package:motor/core/resources/styles_manager.dart';
 import 'package:motor/core/widgets/product_card.dart';
@@ -9,6 +10,7 @@ import 'package:motor/core/widgets/image_shower.dart';
 import 'package:motor/core/widgets/most_ordered_and_offers.dart';
 import 'package:motor/core/widgets/our_services_widget.dart';
 import 'package:motor/core/widgets/service_widget.dart';
+import 'package:motor/features/filteration/filter_screen.dart';
 
 class HomeTap extends StatefulWidget {
   const HomeTap({super.key});
@@ -21,7 +23,20 @@ class _HomeTapState extends State<HomeTap> {
   TextEditingController searchController = TextEditingController();
   final String userName = 'أحمد ';
   final String userLocation = 'الرياض';
-
+  List<BrandModel> filteredBrands = List.generate(
+    15,
+    (index) => BrandModel(
+      name: 'اسم البراند',
+      imagePath: 'assets/images/brand_image.png',
+    ),
+  );
+  List<BrandModel> filteredCategory = List.generate(
+    15,
+    (index) => BrandModel(
+      name: 'اسم القسم',
+      imagePath: 'assets/images/category_image.png',
+    ),
+  );
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -158,7 +173,21 @@ class _HomeTapState extends State<HomeTap> {
                             padding: EdgeInsets.only(left: 8.w),
                             child: InkWell(
                               onTap: () {
-                                print('filter');
+                                FilterScreen().showFilterDialog(
+                                  context,
+                                  filteredBrands,
+                                  filteredCategory,
+                                  [
+                                    'مرسيدس بنز S-Class',
+                                    'مرسيدس بنز C-Class',
+                                    'مرسيدس بنز G-Class',
+                                    'مرسيدس بنز A-Class',
+                                    'مرسيدس بنز x-Class',
+                                    'مرسيدس بنز d-Class',
+                                    'مرسيدس بنز b-Class',
+                                    'مرسيدس بنز s-Class',
+                                  ],
+                                );
                               },
                               child: Container(
                                 alignment: Alignment.center,

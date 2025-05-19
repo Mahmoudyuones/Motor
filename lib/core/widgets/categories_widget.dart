@@ -179,12 +179,12 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                     SmoothPageIndicator(
                       controller: _pageController,
                       count: pagedItems.length,
-                      effect: WormEffect(
-                        dotHeight: 6,
-                        dotWidth: 12,
-                        spacing: 8,
+                      effect: ExpandingDotsEffect(
                         activeDotColor: ColorManager.primary,
                         dotColor: ColorManager.grey,
+                        dotHeight: 8.h,
+                        dotWidth: 8.w,
+                        spacing: 4.w,
                       ),
                     ),
                   ],
