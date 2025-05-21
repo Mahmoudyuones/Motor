@@ -169,7 +169,11 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                                         FilterScreen()
                                             .onTapCategoryAndBrandItem(
                                               context,
-                                              FilterModel(),
+                                              FilterModel(
+                                                selectedBrands: [],
+                                                selectedCategories: [],
+                                                selectedModels: [],
+                                              ),
                                               widget.modelsNames,
                                             );
                                       }

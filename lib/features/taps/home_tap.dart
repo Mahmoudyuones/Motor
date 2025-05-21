@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motor/core/models/brand_model.dart';
+import 'package:motor/core/models/category_model.dart';
 import 'package:motor/core/resources/color_manager.dart';
 import 'package:motor/core/resources/styles_manager.dart';
 import 'package:motor/core/widgets/product_card.dart';
@@ -31,19 +32,30 @@ class _HomeTapState extends State<HomeTap> {
     'assets/images/car.png',
   ];
   List<BrandModel> filteredBrands = List.generate(
-    15,
+    22,
     (index) => BrandModel(
-      name: 'اسم البراند',
+      name: 'ماركة $index',
       imagePath: 'assets/images/brand_image.png',
     ),
   );
-  List<BrandModel> filteredCategory = List.generate(
+  List<CategoryModel> filteredCategory = List.generate(
     15,
-    (index) => BrandModel(
-      name: 'اسم القسم',
+    (index) => CategoryModel(
+      name: 'قسم $index',
       imagePath: 'assets/images/category_image.png',
     ),
   );
+  List<String> filteredModels = [
+    'مرسيدس بنز S-Class',
+    'مرسيدس بنز C-Class',
+    'مرسيدس بنز G-Class',
+    'مرسيدس بنز A-Class',
+    'مرسيدس بنز x-Class',
+    'مرسيدس بنز d-Class',
+    'مرسيدس بنز b-Class',
+    'مرسيدس بنز s-Class',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -184,16 +196,7 @@ class _HomeTapState extends State<HomeTap> {
                                   context,
                                   filteredBrands,
                                   filteredCategory,
-                                  [
-                                    'مرسيدس بنز S-Class',
-                                    'مرسيدس بنز C-Class',
-                                    'مرسيدس بنز G-Class',
-                                    'مرسيدس بنز A-Class',
-                                    'مرسيدس بنز x-Class',
-                                    'مرسيدس بنز d-Class',
-                                    'مرسيدس بنز b-Class',
-                                    'مرسيدس بنز s-Class',
-                                  ],
+                                  filteredModels,
                                 );
                               },
                               child: Container(

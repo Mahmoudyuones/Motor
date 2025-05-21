@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:motor/core/models/brand_model.dart';
+import 'package:motor/core/models/category_model.dart';
 import 'package:motor/core/models/filter_model.dart';
 import 'package:motor/core/resources/color_manager.dart';
 import 'package:motor/core/resources/font_manager.dart';
@@ -12,7 +13,11 @@ import 'package:motor/core/widgets/default_elevated_button.dart';
 import 'package:motor/core/widgets/suggestion_item.dart';
 
 class FilterScreen {
-  FilterModel filterModel = FilterModel();
+  FilterModel filterModel = FilterModel(
+    selectedBrands: [],
+    selectedCategories: [],
+    selectedModels: [],
+  );
 
   onTapCategoryAndBrandItem(
     BuildContext context,
@@ -130,7 +135,7 @@ class FilterScreen {
   void showFilterDialog(
     BuildContext context,
     List<BrandModel> brandItems,
-    List<BrandModel> categoryItems,
+    List<CategoryModel> categoryItems,
     List<String> modelsNames,
   ) {
     RangeValues currentRangeValues = const RangeValues(0, 22000);
@@ -167,299 +172,380 @@ class FilterScreen {
                         ),
                       ),
                       SizedBox(height: 12),
-                      Container(
-                        width: 374.w,
-                        height: 467.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.r),
-                          color: ColorManager.backGroundWhite,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(8.h),
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  'الماركة',
-                                  style: StylesManager.getBoldStyle(
-                                    color: ColorManager.black,
-                                    fontSize: FontSize.s18,
-                                  ),
+                      StatefulBuilder(
+                        builder: (context, setState) {
+                          bool isShowAll = false;
+                          final int visibleItemCount = brandItems.length;
+                          final int rowCount = (visibleItemCount / 3).ceil();
+                          final double itemHeight = 111.h + 8.h;
+                          final double gridHeight = rowCount * itemHeight;
+                          return StatefulBuilder(
+                            builder: (context, setState) {
+                              return AnimatedContainer(
+                                duration: Duration(milliseconds: 500),
+                                width: 374.w,
+                                height: isShowAll ? gridHeight + 115.h : 467.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  color: ColorManager.backGroundWhite,
                                 ),
-                              ),
-                              SizedBox(height: 10.h),
-                              StatefulBuilder(
-                                builder: (context, setState) {
-                                  return Expanded(
-                                    child: GridView.builder(
-                                      scrollDirection: Axis.vertical,
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                            crossAxisCount: 3,
-                                            crossAxisSpacing: 8.w,
-                                            mainAxisSpacing: 8.h,
-                                            mainAxisExtent: 111.h,
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.h),
+                                  child: Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          'الماركة',
+                                          style: StylesManager.getBoldStyle(
+                                            color: ColorManager.black,
+                                            fontSize: FontSize.s18,
                                           ),
-                                      itemCount: brandItems.length,
-                                      itemBuilder: (context, index) {
-                                        final brand = brandItems[index];
-                                        final isSelected =
-                                            filterModel.brandIndex == index;
-
-                                        return Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              12.r,
-                                            ),
-                                            border:
-                                                isSelected
-                                                    ? Border.all(
-                                                      color:
-                                                          ColorManager.primary,
-                                                      width: 3,
-                                                    )
-                                                    : null,
-                                          ),
-                                          child: CategoryAndBrandItem(
-                                            text: brand.name,
-                                            imagePath: brand.imagePath,
-                                            onTap: () {
-                                              setState(() {
-                                                filterModel.brandIndex =
-                                                    isSelected ? null : index;
-                                                filterModel.brandName =
-                                                    isSelected
-                                                        ? null
-                                                        : brand.name;
-                                              });
-                                              print(index);
-                                            },
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-                              SizedBox(height: 10.h),
-                              DefaultElevatedButton(
-                                backGroundColor: ColorManager.white,
-                                textColor: ColorManager.primary,
-
-                                onPressed: () {
-                                  print('show all');
-                                },
-                                text: 'عرض الكل',
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10.h),
-                      Container(
-                        height: 243.h,
-                        width: 374.w,
-                        decoration: BoxDecoration(
-                          color: ColorManager.backGroundWhite,
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(8.h),
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  'الموديل',
-                                  style: StylesManager.getBoldStyle(
-                                    color: ColorManager.black,
-                                    fontSize: FontSize.s18,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(height: 10.h),
-                              Expanded(
-                                child: StatefulBuilder(
-                                  builder:
-                                      (
-                                        context,
-                                        setState,
-                                      ) => SingleChildScrollView(
-                                        child: Wrap(
-                                          spacing: 8.w,
-                                          runSpacing: 8.h,
-                                          alignment: WrapAlignment.start,
-                                          children:
-                                              modelsNames.map((model) {
-                                                final isSelected =
-                                                    filterModel.modelName ==
-                                                    model;
-                                                return InkWell(
-                                                  onTap: () {
-                                                    setState(() {
-                                                      filterModel.modelName =
-                                                          isSelected
-                                                              ? null
-                                                              : model;
-                                                    });
-                                                    print(model);
-                                                  },
-                                                  child: Container(
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                          vertical: 8.h,
-                                                          horizontal: 12.w,
-                                                        ),
-                                                    decoration: BoxDecoration(
-                                                      color: ColorManager.white,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            8.r,
-                                                          ),
-                                                      border:
-                                                          isSelected
-                                                              ? Border.all(
-                                                                color:
-                                                                    ColorManager
-                                                                        .primary,
-                                                                width: 3,
-                                                              )
-                                                              : null,
-                                                    ),
-                                                    child: Text(
-                                                      model,
-                                                      style:
-                                                          StylesManager.getBoldStyle(
-                                                            color:
-                                                                ColorManager
-                                                                    .black,
-                                                            fontSize:
-                                                                FontSize.s14,
-                                                          ),
-                                                    ),
-                                                  ),
-                                                );
-                                              }).toList(),
                                         ),
                                       ),
-                                ),
-                              ),
-                              SizedBox(height: 10.h),
+                                      SizedBox(height: 10.h),
+                                      Expanded(
+                                        child: GridView.builder(
+                                          scrollDirection: Axis.vertical,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
 
-                              DefaultElevatedButton(
-                                backGroundColor: ColorManager.white,
-                                textColor: ColorManager.primary,
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 3,
+                                                crossAxisSpacing: 8.w,
+                                                mainAxisSpacing: 8.h,
+                                                mainAxisExtent: 111.h,
+                                              ),
+                                          itemCount: brandItems.length,
+                                          itemBuilder: (context, index) {
+                                            final brand = brandItems[index];
+                                            bool isSelected = filterModel
+                                                .selectedBrands
+                                                .contains(brand);
 
-                                onPressed: () {
-                                  print('show all');
-                                },
-                                text: 'عرض الكل',
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10.h),
-                      Container(
-                        width: 374.w,
-                        height: 467.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.r),
-                          color: ColorManager.backGroundWhite,
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.all(8.h),
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: Alignment.centerRight,
-                                child: Text(
-                                  'الاقسام',
-                                  style: StylesManager.getBoldStyle(
-                                    color: ColorManager.black,
-                                    fontSize: FontSize.s18,
+                                            return AnimatedContainer(
+                                              duration: const Duration(
+                                                milliseconds: 300,
+                                              ),
+                                              curve: Curves.easeInOut,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    isSelected
+                                                        ? ColorManager.primary
+                                                        : ColorManager.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12.r),
+                                              ),
+                                              child: CategoryAndBrandItem(
+                                                text: brand.name,
+                                                imagePath: brand.imagePath,
+                                                titleColor:
+                                                    isSelected
+                                                        ? ColorManager.white
+                                                        : ColorManager.black,
+
+                                                onTap: () {
+                                                  setState(() {
+                                                    if (isSelected) {
+                                                      filterModel.selectedBrands
+                                                          .remove(brand);
+                                                    } else {
+                                                      filterModel.selectedBrands
+                                                          .add(brand);
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(height: 10.h),
+                                      DefaultElevatedButton(
+                                        backGroundColor: ColorManager.white,
+                                        textColor: ColorManager.primary,
+
+                                        onPressed: () {
+                                          setState(() {
+                                            isShowAll = !isShowAll;
+                                          });
+                                        },
+                                        text:
+                                            isShowAll ? 'عرض أقل' : 'عرض الكل',
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              ),
-                              SizedBox(height: 10.h),
-                              Expanded(
-                                child: StatefulBuilder(
-                                  builder:
-                                      (context, setState) => GridView.builder(
-                                        gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
-                                              crossAxisCount: 3,
-                                              crossAxisSpacing: 8.w,
-                                              mainAxisSpacing: 8.h,
-                                              mainAxisExtent: 111.h,
-                                            ),
-                                        itemBuilder: (context, index) {
-                                          final category = categoryItems[index];
-                                          final isSelected =
-                                              filterModel.categoryIndex ==
-                                              index;
-                                          return Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(12.r),
-                                              border:
-                                                  isSelected
-                                                      ? Border.all(
-                                                        color:
-                                                            ColorManager
-                                                                .primary,
-                                                        width: 3,
-                                                      )
-                                                      : null,
-                                            ),
-                                            child: CategoryAndBrandItem(
-                                              onTap: () {
-                                                setState(() {
-                                                  filterModel.categoryIndex =
-                                                      isSelected ? null : index;
-                                                  filterModel.categoryName =
-                                                      isSelected
-                                                          ? null
-                                                          : category.name;
-                                                });
-
-                                                Future.delayed(
-                                                  const Duration(
-                                                    milliseconds: 50,
-                                                  ),
-                                                  () {
-                                                    filterModel.year == null;
-                                                    onTapCategoryAndBrandItem(
-                                                      context,
-                                                      filterModel,
-                                                      modelsNames,
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                              text: category.name,
-                                              imagePath: category.imagePath,
-                                            ),
-                                          );
-                                        },
-                                        itemCount: categoryItems.length,
-                                      ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      SizedBox(height: 10.h),
+                      StatefulBuilder(
+                        builder: (context, setState) {
+                          bool isShowAll = false;
+                          final int visibleItemCount = modelsNames.length;
+                          final int rowCount = (visibleItemCount / 2).ceil();
+                          final double itemHeight = 30.h + 8.h;
+                          final double gridHeight = rowCount * itemHeight;
+                          return StatefulBuilder(
+                            builder: (context, setState) {
+                              return AnimatedContainer(
+                                duration: Duration(milliseconds: 500),
+                                height: isShowAll ? gridHeight + 130.h : 243.h,
+                                width: 374.w,
+                                decoration: BoxDecoration(
+                                  color: ColorManager.backGroundWhite,
+                                  borderRadius: BorderRadius.circular(12.r),
                                 ),
-                              ),
-                              SizedBox(height: 10.h),
-                              DefaultElevatedButton(
-                                backGroundColor: ColorManager.white,
-                                textColor: ColorManager.primary,
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.h),
+                                  child: Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          'الموديل',
+                                          style: StylesManager.getBoldStyle(
+                                            color: ColorManager.black,
+                                            fontSize: FontSize.s18,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 10.h),
+                                      Expanded(
+                                        child: StatefulBuilder(
+                                          builder: (context, setState) {
+                                            return Wrap(
+                                              spacing: 8.w,
+                                              runSpacing: 8.h,
+                                              alignment: WrapAlignment.start,
+                                              children:
+                                                  modelsNames.map((model) {
+                                                    bool isSelected =
+                                                        filterModel
+                                                            .selectedModels
+                                                            .contains(model);
+                                                    return InkWell(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          if (isSelected) {
+                                                            filterModel
+                                                                .selectedModels
+                                                                .remove(model);
+                                                          } else {
+                                                            filterModel
+                                                                .selectedModels
+                                                                .add(model);
+                                                          }
+                                                        });
+                                                      },
+                                                      child: AnimatedContainer(
+                                                        duration:
+                                                            const Duration(
+                                                              milliseconds: 900,
+                                                            ),
+                                                        curve: Curves.easeInOut,
+                                                        padding:
+                                                            EdgeInsets.symmetric(
+                                                              vertical: 8.h,
+                                                              horizontal: 12.w,
+                                                            ),
+                                                        decoration: BoxDecoration(
+                                                          color:
+                                                              isSelected
+                                                                  ? ColorManager
+                                                                      .primary
+                                                                  : ColorManager
+                                                                      .white,
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                8.r,
+                                                              ),
+                                                        ),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          textDirection:
+                                                              TextDirection.rtl,
+                                                          children: [
+                                                            if (isSelected) ...[
+                                                              Icon(
+                                                                Icons.check,
+                                                                color:
+                                                                    Colors
+                                                                        .white,
+                                                                size: 18.sp,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 6.w,
+                                                              ),
+                                                            ],
+                                                            Text(
+                                                              model,
+                                                              style: StylesManager.getBoldStyle(
+                                                                color:
+                                                                    isSelected
+                                                                        ? Colors
+                                                                            .white
+                                                                        : ColorManager
+                                                                            .black,
+                                                                fontSize:
+                                                                    isSelected
+                                                                        ? FontSize
+                                                                            .s12
+                                                                        : FontSize
+                                                                            .s14,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    );
+                                                  }).toList(),
+                                            );
+                                          },
+                                        ),
+                                      ),
 
-                                onPressed: () {
-                                  print('show all');
-                                },
-                                text: 'عرض الكل',
-                              ),
-                            ],
-                          ),
-                        ),
+                                      SizedBox(height: 10.h),
+
+                                      DefaultElevatedButton(
+                                        backGroundColor: ColorManager.white,
+                                        textColor: ColorManager.primary,
+
+                                        onPressed: () {
+                                          setState(() {
+                                            isShowAll = !isShowAll;
+                                          });
+                                          print('show all');
+                                        },
+                                        text: 'عرض الكل',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                      ),
+                      SizedBox(height: 10.h),
+                      StatefulBuilder(
+                        builder: (context, setState) {
+                          bool isShowAll = false;
+                          final int visibleItemCount = categoryItems.length;
+                          final int rowCount = (visibleItemCount / 3).ceil();
+                          final double itemHeight = 111.h + 8.h;
+                          final double gridHeight = rowCount * itemHeight;
+                          return StatefulBuilder(
+                            builder: (context, setState) {
+                              return AnimatedContainer(
+                                duration: Duration(milliseconds: 500),
+                                width: 374.w,
+                                height: isShowAll ? gridHeight + 115.h : 467.h,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12.r),
+                                  color: ColorManager.backGroundWhite,
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.h),
+                                  child: Column(
+                                    children: [
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          'الاقسام',
+                                          style: StylesManager.getBoldStyle(
+                                            color: ColorManager.black,
+                                            fontSize: FontSize.s18,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(height: 10.h),
+                                      Expanded(
+                                        child: GridView.builder(
+                                          scrollDirection: Axis.vertical,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                                crossAxisCount: 3,
+                                                crossAxisSpacing: 8.w,
+                                                mainAxisSpacing: 8.h,
+                                                mainAxisExtent: 111.h,
+                                              ),
+                                          itemCount: categoryItems.length,
+                                          itemBuilder: (context, index) {
+                                            final category =
+                                                categoryItems[index];
+                                            bool isSelected = filterModel
+                                                .selectedCategories
+                                                .contains(category);
+
+                                            return AnimatedContainer(
+                                              duration: const Duration(
+                                                milliseconds: 300,
+                                              ),
+                                              curve: Curves.easeInOut,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    isSelected
+                                                        ? ColorManager.primary
+                                                        : ColorManager.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(12.r),
+                                              ),
+                                              child: CategoryAndBrandItem(
+                                                text: category.name,
+                                                imagePath: category.imagePath,
+                                                titleColor:
+                                                    isSelected
+                                                        ? ColorManager.white
+                                                        : ColorManager.black,
+
+                                                onTap: () {
+                                                  setState(() {
+                                                    if (isSelected) {
+                                                      filterModel
+                                                          .selectedCategories
+                                                          .remove(category);
+                                                    } else {
+                                                      filterModel
+                                                          .selectedCategories
+                                                          .add(category);
+                                                    }
+                                                  });
+                                                },
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                      SizedBox(height: 10.h),
+                                      DefaultElevatedButton(
+                                        backGroundColor: ColorManager.white,
+                                        textColor: ColorManager.primary,
+
+                                        onPressed: () {
+                                          setState(() {
+                                            isShowAll = !isShowAll;
+                                            print(isShowAll);
+                                          });
+                                        },
+                                        text:
+                                            isShowAll ? 'عرض أقل' : 'عرض الكل',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
                       ),
                       SizedBox(height: 10.h),
                       Container(

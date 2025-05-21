@@ -1,23 +1,20 @@
+import 'package:motor/core/models/brand_model.dart';
+import 'package:motor/core/models/category_model.dart';
+
 class FilterModel {
-  String? brandName;
-  int? brandIndex;
-  String? modelName;
-  int? modelIndex;
-  String? categoryName;
-  int? categoryIndex;
+  List<BrandModel> selectedBrands;
+  List<String> selectedModels;
+  List<CategoryModel> selectedCategories;
   int? year;
 
   double? minPrice;
   double? maxPrice;
   FilterModel({
-    this.brandName,
-    this.brandIndex,
-    this.categoryName,
-    this.categoryIndex,
-    this.modelName,
-    this.modelIndex,
     this.year,
     this.minPrice,
     this.maxPrice,
+    required this.selectedBrands,
+    required this.selectedModels,
+    required this.selectedCategories,
   });
 }
