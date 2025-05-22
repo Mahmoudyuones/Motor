@@ -184,7 +184,11 @@ class FilterScreen {
                               return AnimatedContainer(
                                 duration: Duration(milliseconds: 500),
                                 width: 374.w,
-                                height: isShowAll ? gridHeight + 115.h : 467.h,
+                                height:
+                                    (isShowAll == false &&
+                                            brandItems.length > 9)
+                                        ? 467.h
+                                        : gridHeight + 117.h,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12.r),
                                   color: ColorManager.backGroundWhite,
@@ -294,7 +298,11 @@ class FilterScreen {
                             builder: (context, setState) {
                               return AnimatedContainer(
                                 duration: Duration(milliseconds: 500),
-                                height: isShowAll ? gridHeight + 130.h : 243.h,
+                                height:
+                                    (isShowAll == false &&
+                                            brandItems.length > 9)
+                                        ? 243.h
+                                        : gridHeight + 130.h,
                                 width: 374.w,
                                 decoration: BoxDecoration(
                                   color: ColorManager.backGroundWhite,
@@ -445,7 +453,11 @@ class FilterScreen {
                               return AnimatedContainer(
                                 duration: Duration(milliseconds: 500),
                                 width: 374.w,
-                                height: isShowAll ? gridHeight + 115.h : 467.h,
+                                height:
+                                    (isShowAll == false &&
+                                            categoryItems.length > 9)
+                                        ? 467.h
+                                        : gridHeight + 117.h,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12.r),
                                   color: ColorManager.backGroundWhite,

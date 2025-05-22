@@ -62,20 +62,3 @@ class _ImageShowerState extends State<ImageShower> {
     );
   }
 }
-// Row(
-//                   children: List.generate(
-//                     widget.images.length,
-//                     (index) => Container(
-//                       margin: EdgeInsets.symmetric(horizontal: 2.w),
-//                       width: _currentPage == index ? 30.w : 12.w,
-//                       height: 6.h,
-//                       decoration: BoxDecoration(
-//                         color:
-//                             _currentPage == index
-//                                 ? ColorManager.primary
-//                                 : ColorManager.grey,
-//                         borderRadius: BorderRadius.circular(4.r),
-//                       ),
-//                     ),
-//                   ),
-//                 ),

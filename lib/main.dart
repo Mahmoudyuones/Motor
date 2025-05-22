@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motor/features/screens/home_screen.dart';
 import 'package:motor/features/screens/register_screen.dart';
+import 'package:motor/features/screens/search_and_filter_results_screen.dart';
+import 'package:motor/features/screens/search_screen.dart';
 
 Future<void> main() async {
   await ScreenUtil.ensureScreenSize();
@@ -23,6 +25,9 @@ class MyApp extends StatelessWidget {
             routes: {
               RegisterScreen.routeName: (_) => RegisterScreen(),
               HomeScreen.routeName: (_) => HomeScreen(),
+              SearchScreen.routeName: (_) => SearchScreen(),
+              SearchAndFilterResultsScreen.routeName:
+                  (_) => SearchAndFilterResultsScreen(),
             },
             initialRoute: HomeScreen.routeName,
             builder: (context, child) {

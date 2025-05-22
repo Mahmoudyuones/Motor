@@ -12,7 +12,7 @@ import 'package:motor/core/widgets/most_ordered_and_offers.dart';
 import 'package:motor/core/widgets/our_services_widget.dart';
 import 'package:motor/core/widgets/service_widget.dart';
 import 'package:motor/features/filteration/filter_screen.dart';
-import 'package:motor/features/search/search_screen.dart';
+import 'package:motor/features/screens/search_screen.dart';
 
 class HomeTap extends StatefulWidget {
   const HomeTap({super.key});
@@ -33,14 +33,14 @@ class _HomeTapState extends State<HomeTap> {
     'assets/images/car.png',
   ];
   List<BrandModel> filteredBrands = List.generate(
-    22,
+    21,
     (index) => BrandModel(
       name: 'ماركة $index',
       imagePath: 'assets/images/brand_image.png',
     ),
   );
   List<CategoryModel> filteredCategory = List.generate(
-    15,
+    5,
     (index) => CategoryModel(
       name: 'قسم $index',
       imagePath: 'assets/images/category_image.png',
@@ -183,51 +183,89 @@ class _HomeTapState extends State<HomeTap> {
                             borderRadius: BorderRadius.circular(16.r),
                           ),
                           child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12.r),
+                              color: ColorManager.white,
+                            ),
                             width: 370.w,
                             height: 54.h,
-                            decoration: BoxDecoration(
-                              color: ColorManager.white,
-                              borderRadius: BorderRadius.circular(8.r),
-                            ),
-                            child: Image.asset(
-                              'assets/icons/Search Icon.png',
-                              width: 24.w,
-                              height: 24.h,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          suffixIcon: Padding(
-                            padding: EdgeInsets.only(left: 8.w),
-                            child: InkWell(
-                              onTap: () {
-                                FilterScreen().showFilterDialog(
-                                  context,
-                                  filteredBrands,
-                                  filteredCategory,
-                                  [
-                                    'مرسيدس بنز S-Class',
-                                    'مرسيدس بنز C-Class',
-                                    'مرسيدس بنز G-Class',
-                                    'مرسيدس بنز A-Class',
-                                    'مرسيدس بنز x-Class',
-                                    'مرسيدس بنز d-Class',
-                                    'مرسيدس بنز b-Class',
-                                    'مرسيدس بنز s-Class',
-                                  ],
-                                );
-                              },
-                              child: Container(
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  color: ColorManager.primary,
-                                  borderRadius: BorderRadius.circular(8.r),
-                                ),
-                                child: Image.asset(
-                                  'assets/icons/filter.png',
-                                  width: 24.w,
-                                  height: 24.h,
-                                  fit: BoxFit.contain,
-                                ),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.w),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Container(
+                                            padding: EdgeInsets.only(
+                                              bottom: 8.h,
+                                            ),
+                                            height: 42.h,
+                                            width: 42.w,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              color: ColorManager.white,
+                                              borderRadius:
+                                                  BorderRadius.circular(8.r),
+                                            ),
+                                            child: Image.asset(
+                                              'assets/icons/Search Icon.png',
+                                              width: 24.w,
+                                              height: 24.h,
+                                              fit: BoxFit.contain,
+                                            ),
+                                          ),
+                                          Text(
+                                            'ما الذي تبحث عنه',
+                                            style: StylesManager.getBoldStyle(
+                                              color: ColorManager.grey,
+                                              fontSize: FontSize.s18,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      FilterScreen().showFilterDialog(
+                                        context,
+                                        filteredBrands,
+                                        filteredCategory,
+                                        [
+                                          'مرسيدس بنز S-Class',
+                                          'مرسيدس بنز C-Class',
+                                          'مرسيدس بنز G-Class',
+                                          'مرسيدس بنز A-Class',
+                                          'مرسيدس بنز x-Class',
+                                          'مرسيدس بنز d-Class',
+                                          'مرسيدس بنز b-Class',
+                                          'مرسيدس بنز s-Class',
+                                        ],
+                                      );
+                                    },
+                                    child: Container(
+                                      height: 42.h,
+                                      width: 42.w,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: ColorManager.primary,
+                                        borderRadius: BorderRadius.circular(
+                                          8.r,
+                                        ),
+                                      ),
+                                      child: Image.asset(
+                                        'assets/icons/filter.png',
+                                        width: 24.w,
+                                        height: 24.h,
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
