@@ -3,15 +3,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motor/core/models/brand_model.dart';
 import 'package:motor/core/models/category_model.dart';
 import 'package:motor/core/resources/color_manager.dart';
+import 'package:motor/core/resources/font_manager.dart';
 import 'package:motor/core/resources/styles_manager.dart';
 import 'package:motor/core/widgets/product_card.dart';
 import 'package:motor/core/widgets/categories_widget.dart';
-import 'package:motor/core/widgets/default_text_form_field.dart';
 import 'package:motor/core/widgets/image_shower.dart';
 import 'package:motor/core/widgets/most_ordered_and_offers.dart';
 import 'package:motor/core/widgets/our_services_widget.dart';
 import 'package:motor/core/widgets/service_widget.dart';
 import 'package:motor/features/filteration/filter_screen.dart';
+import 'package:motor/features/search/search_screen.dart';
 
 class HomeTap extends StatefulWidget {
   const HomeTap({super.key});
@@ -162,21 +163,28 @@ class _HomeTapState extends State<HomeTap> {
                         ],
                       ),
                       SizedBox(height: 12.h),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: ColorManager.backGroundWhite.withOpacity(.25),
-                          border: Border.all(
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(
+                            context,
+                          ).pushNamed(SearchScreen.routeName);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
                             color: ColorManager.backGroundWhite.withOpacity(
                               .25,
                             ),
-                            width: 6.w,
+                            border: Border.all(
+                              color: ColorManager.backGroundWhite.withOpacity(
+                                .25,
+                              ),
+                              width: 6.w,
+                            ),
+                            borderRadius: BorderRadius.circular(16.r),
                           ),
-                          borderRadius: BorderRadius.circular(16.r),
-                        ),
-                        child: DefaultTextFormField(
-                          isSearch: true,
-                          prefixIcon: Container(
-                            alignment: Alignment.center,
+                          child: Container(
+                            width: 370.w,
+                            height: 54.h,
                             decoration: BoxDecoration(
                               color: ColorManager.white,
                               borderRadius: BorderRadius.circular(8.r),
@@ -196,7 +204,16 @@ class _HomeTapState extends State<HomeTap> {
                                   context,
                                   filteredBrands,
                                   filteredCategory,
-                                  filteredModels,
+                                  [
+                                    'مرسيدس بنز S-Class',
+                                    'مرسيدس بنز C-Class',
+                                    'مرسيدس بنز G-Class',
+                                    'مرسيدس بنز A-Class',
+                                    'مرسيدس بنز x-Class',
+                                    'مرسيدس بنز d-Class',
+                                    'مرسيدس بنز b-Class',
+                                    'مرسيدس بنز s-Class',
+                                  ],
                                 );
                               },
                               child: Container(
@@ -214,9 +231,6 @@ class _HomeTapState extends State<HomeTap> {
                               ),
                             ),
                           ),
-                          hintText: 'ما الذي تبحث عنه',
-                          isPassword: false,
-                          controller: searchController,
                         ),
                       ),
                     ],

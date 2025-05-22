@@ -7,6 +7,8 @@ import 'package:motor/core/resources/styles_manager.dart';
 class DefaultTextFormField extends StatefulWidget {
   final String hintText;
   final IconData? icon;
+  final void Function()? onTap;
+  final void Function(String)? onChanged;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final bool isSearch;
@@ -24,6 +26,8 @@ class DefaultTextFormField extends StatefulWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.isSearch = false,
+    this.onTap,
+    this.onChanged,
   });
 
   @override
@@ -39,8 +43,10 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField> {
       validator: widget.validator,
       obscureText: isObscure,
       controller: widget.controller,
+      onTap: widget.onTap,
+      onChanged: widget.onChanged,
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      style: StylesManager.getRegularStyle(
+      style: StylesManager.getSemiBoldStyle(
         color: ColorManager.black,
         fontSize: FontSize.s17,
       ),
