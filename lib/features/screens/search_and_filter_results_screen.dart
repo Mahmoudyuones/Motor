@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motor/core/models/brand_model.dart';
 import 'package:motor/core/models/category_model.dart';
 import 'package:motor/core/models/filter_model.dart';
+import 'package:motor/core/models/product_model.dart';
 import 'package:motor/core/resources/color_manager.dart';
 import 'package:motor/core/resources/font_manager.dart';
 import 'package:motor/core/resources/styles_manager.dart';
@@ -10,6 +11,7 @@ import 'package:motor/core/widgets/default_text_form_field.dart';
 import 'package:motor/core/widgets/filter_tap_bar_item.dart';
 import 'package:motor/core/widgets/search_Item.dart';
 import 'package:motor/features/filteration/filter_screen.dart';
+import 'package:motor/features/screens/product_details_screen.dart';
 
 class SearchAndFilterResultsScreen extends StatefulWidget {
   static const routeName = '/results';
@@ -267,15 +269,13 @@ class _SearchAndFilterResultsScreenState
                     : Column(
                       children: [
                         SizedBox(height: 140.h),
-                        Container(
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              '100 عنصر من نتاءج البحث',
-                              style: StylesManager.getSemiBoldStyle(
-                                color: ColorManager.grey,
-                                fontSize: FontSize.s16,
-                              ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            '100 عنصر من نتاءج البحث',
+                            style: StylesManager.getSemiBoldStyle(
+                              color: ColorManager.grey,
+                              fontSize: FontSize.s16,
                             ),
                           ),
                         ),
@@ -283,7 +283,38 @@ class _SearchAndFilterResultsScreenState
                         Expanded(
                           child: ListView.separated(
                             padding: EdgeInsets.all(0),
-                            itemBuilder: (context, index) => searchItems[index],
+                            itemBuilder:
+                                (context, index) => InkWell(
+                                  onTap: () {
+                                    Navigator.of(context).pushNamed(
+                                      ProductDetailsScreen.routeName,
+                                      arguments: ProductModel(
+                                        productName: 'Ferrari 6.0-liter F140',
+                                        description:
+                                            'محرك فيراري F140 بسعة 6.0 لترات هو مثال رائع للهندسة، معروف بأدائه المذهل وصوته المميز. يوفر هذا المحرك V12 سرعة مثيرة وتسارعاً مذهلاً، مما يجعله مفضلاً بين عشاق السيارات. مع تقنيته المتطورة وحرفيته الدقيقة، يجسد F140 روح فيراري، مقدماً تجربة قيادة مثيرة تجمع بين القوة والرقي.',
+                                        tag: 'تاج تشويقى',
+                                        category: 'فئة المنتج',
+                                        views: 300,
+                                        sellerName: 'محمد البشاري',
+                                        isFavorite: false,
+                                        imagesPaths: [
+                                          'assets/images/brand_image.png',
+                                          'assets/images/engine_image.png',
+                                          'assets/images/engine_image.png',
+                                          'assets/images/engine_image.png',
+                                          'assets/images/engine_image.png',
+                                          'assets/images/engine_image.png',
+                                          'assets/images/engine_image.png',
+                                          'assets/images/engine_image.png',
+                                          'assets/images/engine_image.png',
+                                        ],
+                                        oldPrice: 250000,
+                                        newPrice: 200000,
+                                      ),
+                                    );
+                                  },
+                                  child: searchItems[index],
+                                ),
 
                             separatorBuilder:
                                 (context, index) => SizedBox(height: 20.h),

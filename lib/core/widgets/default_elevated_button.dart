@@ -12,12 +12,14 @@ class DefaultElevatedButton extends StatelessWidget {
     this.backGroundColor,
     this.textColor,
     this.icon,
+    this.width,
   });
   final VoidCallback onPressed;
   final String text;
   final Color? backGroundColor;
   final Color? textColor;
   final IconData? icon;
+  final double? width;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -25,7 +27,7 @@ class DefaultElevatedButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         side: textColor != null ? BorderSide(color: textColor!) : null,
         backgroundColor: backGroundColor ?? ColorManager.primary,
-        fixedSize: Size(358.w, 54.h),
+        fixedSize: Size(width ?? 358.w, 54.h),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12.r),
         ),

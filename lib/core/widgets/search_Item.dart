@@ -75,7 +75,7 @@ class _SearchItemState extends State<SearchItem> {
                     right: 8.r,
                     child: Row(
                       children: [
-                        GestureDetector(
+                        InkWell(
                           onTap: widget.onShare,
                           child: Container(
                             width: 40.w,
@@ -92,7 +92,7 @@ class _SearchItemState extends State<SearchItem> {
                           ),
                         ),
                         SizedBox(width: 5.w),
-                        GestureDetector(
+                        InkWell(
                           onTap: () {
                             setState(() {
                               isFavorite = !isFavorite;
