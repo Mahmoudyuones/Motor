@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motor/core/resources/color_manager.dart';
 import 'package:motor/core/resources/styles_manager.dart';
 import 'package:motor/features/taps/home_tap.dart';
+import 'package:motor/features/taps/profile_tap.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
@@ -18,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Center(child: Text('طلباتي', style: TextStyle(fontSize: 30))),
     Center(child: Text('السلة', style: TextStyle(fontSize: 30))),
     Center(child: Text('المحادثات', style: TextStyle(fontSize: 30))),
-    Center(child: Text('الحساب', style: TextStyle(fontSize: 30))),
+    ProfileTap(),
   ];
 
   void _onItemTapped(int index) {

@@ -21,6 +21,7 @@ dependencies:
   animated_toggle_switch: ^0.8.5
   smooth_page_indicator: ^1.2.1
   modal_bottom_sheet: ^3.0.0
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:
