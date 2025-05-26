@@ -11,7 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
-
+  dotted_line: ^3.0.0
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.1.0
   intl_phone_field: ^3.2.0

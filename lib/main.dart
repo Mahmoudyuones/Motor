@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motor/features/screens/home_screen.dart';
+import 'package:motor/features/screens/payment_screen.dart';
 import 'package:motor/features/screens/product_details_screen.dart';
 import 'package:motor/features/screens/register_screen.dart';
 import 'package:motor/features/screens/search_and_filter_results_screen.dart';
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
               SearchAndFilterResultsScreen.routeName:
                   (_) => SearchAndFilterResultsScreen(),
               ProductDetailsScreen.routeName: (_) => ProductDetailsScreen(),
+              PaymentScreen.routeName: (_) => PaymentScreen(),
             },
             initialRoute: HomeScreen.routeName,
             builder: (context, child) {

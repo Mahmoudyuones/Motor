@@ -4,6 +4,7 @@ import 'package:motor/core/resources/color_manager.dart';
 import 'package:motor/core/resources/styles_manager.dart';
 import 'package:motor/features/taps/home_tap.dart';
 import 'package:motor/features/taps/profile_tap.dart';
+import 'package:motor/features/taps/basket_tap.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
@@ -16,8 +17,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   static final List<Widget> _screens = <Widget>[
     HomeTap(),
-    Center(child: Text('طلباتي', style: TextStyle(fontSize: 30))),
-    Center(child: Text('السلة', style: TextStyle(fontSize: 30))),
+    Center(child: Text('طلبات', style: TextStyle(fontSize: 30))),
+    BasketTap(),
+
     Center(child: Text('المحادثات', style: TextStyle(fontSize: 30))),
     ProfileTap(),
   ];

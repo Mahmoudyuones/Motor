@@ -7,8 +7,8 @@ class ProductModel {
   String sellerName;
   bool isFavorite;
   List<String> imagesPaths;
-  int oldPrice;
-  int newPrice;
+  double oldPrice;
+  double newPrice;
 
   ProductModel({
     required this.productName,
