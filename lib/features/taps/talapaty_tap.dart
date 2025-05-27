@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motor/core/models/product_model.dart';
@@ -244,29 +245,38 @@ class _TalapatyTapState extends State<TalapatyTap> {
                 ],
               ),
               Expanded(
+                key: ValueKey(
+                  '$int-${isProductsSelected ? 'product' : 'service'}',
+                ),
                 child: ListView.separated(
                   padding: EdgeInsets.zero,
                   separatorBuilder: (context, index) => SizedBox(height: 20.h),
                   itemBuilder:
                       (context, index) =>
                           isProductsSelected
-                              ? TalabatWidget(
-                                date: '$date مساءً',
-                                totalPrice: 220000,
-                                products: products,
-                                address1: 'جوار جولة الكميم عمارة الكهلاني',
-                                address2: 'عمارة الكهلاني جوار جولة الكميم',
-                                orderStatus: 'جاري التوصيل',
-                                orderId: '#548572',
+                              ? FadeIn(
+                                key: ValueKey(index),
+                                child: TalabatWidget(
+                                  date: '$date مساءً',
+                                  totalPrice: 220000,
+                                  products: products,
+                                  address1: 'جوار جولة الكميم عمارة الكهلاني',
+                                  address2: 'عمارة الكهلاني جوار جولة الكميم',
+                                  orderStatus: 'جاري التوصيل',
+                                  orderId: '#548572',
+                                ),
                               )
-                              : HelpAndRepairWidget(
-                                date: '$date مساءً',
-                                orderId: '#548572',
-                                address1: 'جوار جولة الكميم عمارة الكهلاني',
-                                address2: 'عمارة الكهلاني جولة جولة الكميم',
-                                vehicleType: 'سيارة',
-                                phoneNumber: '967-770819441+',
-                                description: 'أنفجار الإطار الأمامي',
+                              : FadeIn(
+                                key: ValueKey(index),
+                                child: HelpAndRepairWidget(
+                                  date: '$date مساءً',
+                                  orderId: '#548572',
+                                  address1: 'جوار جولة الكميم عمارة الكهلاني',
+                                  address2: 'عمارة الكهلاني جولة جولة الكميم',
+                                  vehicleType: 'سيارة',
+                                  phoneNumber: '967-770819441+',
+                                  description: 'أنفجار الإطار الأمامي',
+                                ),
                               ),
                   itemCount: 10,
                 ),
