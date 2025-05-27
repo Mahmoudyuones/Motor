@@ -202,16 +202,23 @@ class _RegisterScreenState extends State<RegisterScreen>
                                   hintText: 'الاسم التجاري',
                                   isPassword: false,
                                   controller: agentNameController,
+                                  keyboardType: TextInputType.name,
                                 ),
                               ),
                               SizedBox(height: 10.h),
-                              FadeInDown(child: CustomDropdown()),
+                              FadeInDown(
+                                child: CustomDropdown(
+                                  hintText: 'النوع',
+                                  items: ['نوع 1', 'نوع 2', 'نوع 3'],
+                                ),
+                              ),
                               SizedBox(height: 10.h),
                             ],
                             DefaultTextFormField(
                               hintText: 'اسم المستخدم',
                               isPassword: false,
                               controller: nameController,
+                              keyboardType: TextInputType.name,
                             ),
                             SizedBox(height: 10.h),
                             PhoneInputField(controller: phoneController),
@@ -219,6 +226,7 @@ class _RegisterScreenState extends State<RegisterScreen>
                               hintText: 'الأيميل (أختيارى)',
                               isPassword: false,
                               controller: emailController,
+                              keyboardType: TextInputType.emailAddress,
                             ),
                             if (isAgentTab) ...[
                               SizedBox(height: 10.h),

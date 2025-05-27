@@ -5,7 +5,8 @@ import 'package:motor/core/resources/font_manager.dart';
 import 'package:motor/core/resources/styles_manager.dart';
 
 class DefaultTextFormField extends StatefulWidget {
-  final String hintText;
+  final String? hintText;
+  final String? labelText;
   final IconData? icon;
   final void Function()? onTap;
   final void Function(String)? onChanged;
@@ -15,10 +16,14 @@ class DefaultTextFormField extends StatefulWidget {
   final String? Function(String?)? validator;
   final bool isPassword;
   final TextEditingController controller;
+  final double? veticalContentPadding;
+  final TextInputType? keyboardType;
+  final int? maxLines;
+  final int? minLines;
 
   const DefaultTextFormField({
     super.key,
-    required this.hintText,
+    this.hintText,
     this.icon,
     this.validator,
     required this.isPassword,
@@ -28,6 +33,11 @@ class DefaultTextFormField extends StatefulWidget {
     this.isSearch = false,
     this.onTap,
     this.onChanged,
+    this.veticalContentPadding,
+    this.labelText,
+    this.keyboardType,
+    this.maxLines,
+    this.minLines,
   });
 
   @override
@@ -45,13 +55,19 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField> {
       controller: widget.controller,
       onTap: widget.onTap,
       onChanged: widget.onChanged,
+      keyboardType: widget.keyboardType,
+      maxLines: widget.maxLines ?? 1,
+      minLines: widget.minLines,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       style: StylesManager.getSemiBoldStyle(
         color: ColorManager.black,
         fontSize: FontSize.s17,
       ),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 14.h),
+        contentPadding: EdgeInsets.symmetric(
+          vertical: widget.veticalContentPadding ?? 15.h,
+          horizontal: 10.w,
+        ),
         prefixIconConstraints: BoxConstraints(
           minWidth: 42.w,
           minHeight: 42.h,
@@ -65,12 +81,17 @@ class _DefaultTextFormFieldState extends State<DefaultTextFormField> {
           maxHeight: 42.h,
         ),
         hintText: widget.hintText,
+        labelText: widget.labelText,
         suffixIcon: widget.suffixIcon,
         prefixIcon: widget.prefixIcon,
         filled: true,
         fillColor: ColorManager.white,
         hintStyle: StylesManager.getBoldStyle(
           color: ColorManager.darkGrey,
+          fontSize: FontSize.s14,
+        ),
+        labelStyle: StylesManager.getBoldStyle(
+          color: ColorManager.primary,
           fontSize: FontSize.s14,
         ),
         border: OutlineInputBorder(

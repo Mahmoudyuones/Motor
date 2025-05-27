@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motor/features/screens/ask_service_screen.dart';
 import 'package:motor/features/screens/home_screen.dart';
 import 'package:motor/features/screens/payment_screen.dart';
 import 'package:motor/features/screens/product_details_screen.dart';
@@ -32,8 +33,9 @@ class MyApp extends StatelessWidget {
                   (_) => SearchAndFilterResultsScreen(),
               ProductDetailsScreen.routeName: (_) => ProductDetailsScreen(),
               PaymentScreen.routeName: (_) => PaymentScreen(),
+              AskServiceScreen.routeName: (_) => AskServiceScreen(),
             },
-            initialRoute: HomeScreen.routeName,
+            initialRoute: AskServiceScreen.routeName,
             builder: (context, child) {
               return Directionality(
                 textDirection: TextDirection.rtl,

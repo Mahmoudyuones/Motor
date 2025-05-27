@@ -5,7 +5,13 @@ import 'package:motor/core/resources/font_manager.dart';
 import 'package:motor/core/resources/styles_manager.dart';
 
 class CustomDropdown extends StatefulWidget {
-  const CustomDropdown({super.key});
+  final String hintText;
+  final List<String> items;
+  const CustomDropdown({
+    super.key,
+    required this.hintText,
+    required this.items,
+  });
 
   @override
   State<CustomDropdown> createState() => _CustomDropdownState();
@@ -13,7 +19,6 @@ class CustomDropdown extends StatefulWidget {
 
 class _CustomDropdownState extends State<CustomDropdown> {
   String? selectedValue;
-  final List<String> items = ['نوع 1', 'نوع 2', 'نوع 3'];
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +38,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
             fontSize: FontSize.s14,
           ),
           decoration: InputDecoration(
-            hintText: 'النوع',
+            hintText: widget.hintText,
             hintStyle: StylesManager.getBoldStyle(
               color: ColorManager.darkGrey,
               fontSize: FontSize.s14,
@@ -65,7 +70,7 @@ class _CustomDropdownState extends State<CustomDropdown> {
           ),
           icon: const Icon(Icons.arrow_drop_down),
           items:
-              items.map((item) {
+              widget.items.map((item) {
                 return DropdownMenuItem<String>(
                   value: item,
                   child: Text(
