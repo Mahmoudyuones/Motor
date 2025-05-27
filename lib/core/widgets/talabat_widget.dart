@@ -95,25 +95,28 @@ class TalabatWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(width: 8.w),
-                    Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 12.w,
-                        vertical: 4.h,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(8.r),
-                      ),
-                      child: Text(
-                        orderStatus,
-                        style: StylesManager.getSemiBoldStyle(
-                          color: ColorManager.white,
-                          fontSize: FontSize.s14,
-                        ),
+                  ],
+                ),
+                SizedBox(height: 12.h),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 4.h,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: Text(
+                      orderStatus,
+                      style: StylesManager.getSemiBoldStyle(
+                        color: ColorManager.white,
+                        fontSize: FontSize.s14,
                       ),
                     ),
-                  ],
+                  ),
                 ),
                 SizedBox(height: 12.h),
                 Row(
