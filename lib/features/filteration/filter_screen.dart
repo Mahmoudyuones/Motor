@@ -11,6 +11,7 @@ import 'package:motor/core/resources/styles_manager.dart';
 import 'package:motor/core/widgets/category_and_brand_item.dart';
 import 'package:motor/core/widgets/default_elevated_button.dart';
 import 'package:motor/core/widgets/suggestion_item.dart';
+import 'package:motor/features/screens/search_and_filter_results_screen.dart';
 
 class FilterScreen {
   FilterModel filterModel = FilterModel(
@@ -23,8 +24,9 @@ class FilterScreen {
     BuildContext context,
     FilterModel filterModel,
     List<String> modelNames,
+    List<String> brandNames,
   ) {
-    bool showYear = true;
+    FilterShow currentView = FilterShow.brand;
 
     showBarModalBottomSheet(
       backgroundColor: ColorManager.white,
@@ -46,7 +48,11 @@ class FilterScreen {
                   Align(
                     alignment: Alignment.centerRight,
                     child: Text(
-                      showYear ? 'سنة الصنع' : 'الموديلات',
+                      currentView == FilterShow.year
+                          ? 'سنة الصنع'
+                          : currentView == FilterShow.model
+                          ? 'الموديلات'
+                          : 'الماركات',
                       style: StylesManager.getBoldStyle(
                         color: ColorManager.black,
                         fontSize: FontSize.s18,
@@ -55,9 +61,11 @@ class FilterScreen {
                   ),
                   SizedBox(height: 10.h),
                   Expanded(
-                    child:
-                        showYear
-                            ? ListView.separated(
+                    child: Builder(
+                      builder: (_) {
+                        switch (currentView) {
+                          case FilterShow.year:
+                            return ListView.separated(
                               itemBuilder: (context, index) {
                                 final currentYear = DateTime.now().year;
                                 final isSelected =
@@ -65,7 +73,6 @@ class FilterScreen {
                                         ? false
                                         : (currentYear - filterModel.year!) ==
                                             index;
-                                print(filterModel.year);
 
                                 return Container(
                                   decoration: BoxDecoration(
@@ -91,7 +98,12 @@ class FilterScreen {
                                           const Duration(milliseconds: 100),
                                           () {
                                             setState(() {
-                                              showYear = false;
+                                              Navigator.of(
+                                                context,
+                                              ).pushReplacementNamed(
+                                                SearchAndFilterResultsScreen
+                                                    .routeName,
+                                              );
                                             });
                                           },
                                         );
@@ -103,17 +115,45 @@ class FilterScreen {
                               separatorBuilder:
                                   (context, index) => SizedBox(height: 10.h),
                               itemCount: 50,
-                            )
-                            : FadeInLeft(
+                            );
+
+                          case FilterShow.model:
+                            return FadeInLeft(
                               child: ListView.separated(
                                 itemBuilder: (context, index) {
+                                  bool isSelected =
+                                      modelNames[index] ==
+                                              filterModel.selectedModel
+                                          ? true
+                                          : false;
+
                                   return Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(12.r),
+                                      border:
+                                          isSelected
+                                              ? Border.all(
+                                                color: ColorManager.primary,
+                                                width: 3,
+                                              )
+                                              : null,
                                     ),
                                     child: SuggestionItem(
                                       title: modelNames[index],
-                                      onTap: () {},
+                                      onTap: () {
+                                        setState(() {
+                                          filterModel.selectedModel =
+                                              modelNames[index];
+                                          Future.delayed(
+                                            const Duration(milliseconds: 100),
+                                            () {
+                                              setState(() {
+                                                currentView = FilterShow.year;
+                                              });
+                                            },
+                                          );
+                                        });
+                                      },
                                     ),
                                   );
                                 },
@@ -121,7 +161,56 @@ class FilterScreen {
                                     (context, index) => SizedBox(height: 10.h),
                                 itemCount: modelNames.length,
                               ),
-                            ),
+                            );
+
+                          case FilterShow.brand:
+                            return FadeInLeft(
+                              child: ListView.separated(
+                                itemBuilder: (context, index) {
+                                  bool isSelected =
+                                      brandNames[index] ==
+                                              filterModel.selectedBrand
+                                          ? true
+                                          : false;
+
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12.r),
+                                      border:
+                                          isSelected
+                                              ? Border.all(
+                                                color: ColorManager.primary,
+                                                width: 3,
+                                              )
+                                              : null,
+                                    ),
+                                    child: SuggestionItem(
+                                      title: brandNames[index],
+                                      onTap: () {
+                                        setState(() {
+                                          filterModel.selectedBrand =
+                                              brandNames[index];
+                                          Future.delayed(
+                                            const Duration(milliseconds: 100),
+                                            () {
+                                              setState(() {
+                                                currentView = FilterShow.model;
+                                              });
+                                            },
+                                          );
+                                        });
+                                      },
+                                    ),
+                                  );
+                                },
+                                separatorBuilder:
+                                    (context, index) => SizedBox(height: 10.h),
+                                itemCount: brandNames.length,
+                              ),
+                            );
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -714,3 +803,5 @@ class FilterScreen {
     );
   }
 }
+
+enum FilterShow { year, model, brand }

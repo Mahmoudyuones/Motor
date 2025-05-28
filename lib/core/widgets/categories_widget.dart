@@ -11,7 +11,12 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CategoriesWidget extends StatefulWidget {
   final List<String> modelsNames;
-  const CategoriesWidget({super.key, required this.modelsNames});
+  final List<String> brandNames;
+  const CategoriesWidget({
+    super.key,
+    required this.modelsNames,
+    required this.brandNames,
+  });
 
   @override
   State<CategoriesWidget> createState() => _CategoriesWidgetState();
@@ -175,6 +180,7 @@ class _CategoriesWidgetState extends State<CategoriesWidget> {
                                                 selectedModels: [],
                                               ),
                                               widget.modelsNames,
+                                              widget.brandNames,
                                             );
                                       }
                                     },

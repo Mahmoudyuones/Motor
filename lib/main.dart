@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
               PaymentScreen.routeName: (_) => PaymentScreen(),
               AskServiceScreen.routeName: (_) => AskServiceScreen(),
             },
-            initialRoute: AskServiceScreen.routeName,
+            initialRoute: HomeScreen.routeName,
             builder: (context, child) {
               return Directionality(
                 textDirection: TextDirection.rtl,

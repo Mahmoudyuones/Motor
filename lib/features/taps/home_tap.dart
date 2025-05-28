@@ -307,6 +307,7 @@ class _HomeTapState extends State<HomeTap> {
           ),
           SizedBox(height: 20.h),
           CategoriesWidget(
+            brandNames: ['تيوتا1', '2تيوتا', '3تيوتا', '4تيوتا'],
             modelsNames: [
               'كامري',
               'كامري هايبرد',
